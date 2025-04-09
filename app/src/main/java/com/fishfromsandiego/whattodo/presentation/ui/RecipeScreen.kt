@@ -82,19 +82,17 @@ fun RecipeScreen(recipe: CookingRecipe, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreview() {
-    Surface(color = MaterialTheme.colorScheme.background) {
-        WhatToDoTheme(darkTheme = false, dynamicColor = false) {
-            Surface {
-                RecipeScreen(
-                    recipe = CookingRecipe(
-                        dish = stringResource(R.string.recipe_preview_dish),
-                        recipe = stringResource(R.string.recipe_preview_desc),
-                        picture = painterResource(R.drawable.recipe_preview_meal),
-                    ),
-                    modifier = Modifier.fillMaxSize(),
+    WhatToDoTheme(darkTheme = false, dynamicColor = false) {
+        Surface {
+            RecipeScreen(
+                recipe = CookingRecipe(
+                    dish = stringResource(R.string.recipe_preview_dish),
+                    recipe = stringResource(R.string.recipe_preview_desc),
+                    picture = painterResource(R.drawable.recipe_preview_meal),
+                ),
+                modifier = Modifier.fillMaxSize(),
 
-                    )
-            }
+                )
         }
     }
 }
@@ -102,19 +100,17 @@ fun RecipeScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun RecipeScreenPreviewDark() {
-    Surface(color = MaterialTheme.colorScheme.background) {
-        WhatToDoTheme(darkTheme = true, dynamicColor = false) {
-            Surface {
-                RecipeScreen(
-                    recipe = CookingRecipe(
-                        dish = stringResource(R.string.recipe_preview_dish),
-                        recipe = stringResource(R.string.recipe_preview_desc),
-                        picture = painterResource(R.drawable.recipe_preview_meal),
-                    ),
-                    modifier = Modifier.fillMaxSize(),
+    WhatToDoTheme(darkTheme = true, dynamicColor = false) {
+        Surface {
+            RecipeScreen(
+                recipe = CookingRecipe(
+                    dish = stringResource(R.string.recipe_preview_dish),
+                    recipe = stringResource(R.string.recipe_preview_desc),
+                    picture = painterResource(R.drawable.recipe_preview_meal),
+                ),
+                modifier = Modifier.fillMaxSize(),
 
-                    )
-            }
+                )
         }
     }
 }
