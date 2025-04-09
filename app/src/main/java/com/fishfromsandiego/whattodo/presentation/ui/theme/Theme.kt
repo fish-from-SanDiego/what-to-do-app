@@ -275,4 +275,3 @@ fun WhatToDoTheme(
         content = content
     )
 }
-

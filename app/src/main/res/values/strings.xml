@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">WhatToDo</string>
+    <string name="sunny_weather_desc">It\'s sunny today!\nWhy not to go out?</string>
+    <string name="expand_chore_description">Expand chore description</string>
+    <string name="hide_chore_description">Hide chore description</string>
 </resources>
