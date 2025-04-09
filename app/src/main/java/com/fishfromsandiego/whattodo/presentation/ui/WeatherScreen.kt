@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import com.fishfromsandiego.whattodo.R
 import com.fishfromsandiego.whattodo.data.WeatherInfo
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
@@ -92,6 +93,7 @@ fun WeatherCard(
                 text = stringResource(weatherInfo.description),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displaySmall,
+                letterSpacing = (-0.02).em,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
                     .wrapContentHeight()

@@ -28,7 +28,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
@@ -110,6 +113,7 @@ fun ChoreItem(
                 text = chore.title,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.headlineSmall,
+                letterSpacing = (-0.02).em,
                 modifier = Modifier
                     .padding(start = 8.dp, top = 8.dp, bottom = 2.dp)
                     .layoutId("title"),
@@ -135,13 +139,14 @@ fun ChoreItem(
                     HorizontalDivider(
                         modifier = Modifier
                             .layoutId("hr")
-                            .padding(start = 4.dp, end = 4.dp),
+                            .padding(start = 8.dp, end = 8.dp, bottom = 2.dp),
                         thickness = 1.dp,
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.outline,
                     )
                     Text(
                         text = chore.description,
                         style = MaterialTheme.typography.bodyLarge,
+                        lineHeight = 1.2.em,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
