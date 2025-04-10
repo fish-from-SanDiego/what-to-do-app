@@ -73,6 +73,12 @@ fun WeatherCard(
     Card(
         modifier = modifier,
         border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
+        colors = CardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            disabledContentColor = MaterialTheme.colorScheme.onSurface,
+        )
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -93,6 +99,7 @@ fun WeatherCard(
                 text = stringResource(weatherInfo.description),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.displaySmall,
+                color = MaterialTheme.colorScheme.onSurface,
                 letterSpacing = (-0.02).em,
                 modifier = Modifier
                     .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)

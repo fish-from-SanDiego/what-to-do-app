@@ -64,13 +64,13 @@ fun RecipeScreen(recipe: CookingRecipe, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 8.dp, bottom = 8.dp)
                 .clip(CardDefaults.shape)
-                .background(color = MaterialTheme.colorScheme.tertiaryContainer)
+                .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
 //                .fillMaxHeight()
         ) {
             Text(
                 text = recipe.recipe,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier
                     .padding(8.dp)
 

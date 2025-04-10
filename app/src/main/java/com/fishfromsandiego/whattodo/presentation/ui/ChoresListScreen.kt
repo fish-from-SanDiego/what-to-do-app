@@ -27,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -107,7 +108,7 @@ fun ChoreItem(
             constraintSet = constraints,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surfaceVariant)
+                .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
         ) {
             Text(
                 text = chore.title,
@@ -147,7 +148,7 @@ fun ChoreItem(
                         text = chore.description,
                         style = MaterialTheme.typography.bodyLarge,
                         lineHeight = 1.2.em,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier
                             .padding(start = 8.dp, bottom = 8.dp, end = 8.dp)
                             .layoutId("desc")
