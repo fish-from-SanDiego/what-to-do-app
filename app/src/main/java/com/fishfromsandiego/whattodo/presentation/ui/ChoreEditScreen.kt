@@ -6,6 +6,7 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,6 +26,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,10 +36,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import com.fishfromsandiego.whattodo.R
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
@@ -49,7 +52,11 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ChoreEditScreen(modifier: Modifier = Modifier) {
     var title by rememberSaveable { mutableStateOf("") }
-    var description by rememberSaveable { mutableStateOf("") }
+
+    var description by remember {
+        val textFieldValue = TextFieldValue(text = "", selection = TextRange.Zero)
+        mutableStateOf(textFieldValue)
+    }
     var titleInputWrong by rememberSaveable { mutableStateOf(false) }
     var titleFocusNotTriggeredYet by rememberSaveable { mutableStateOf(true) }
     var selectedDateMillis by rememberSaveable { mutableStateOf<Long?>(null) }
@@ -57,6 +64,7 @@ fun ChoreEditScreen(modifier: Modifier = Modifier) {
     var showPicker by rememberSaveable { mutableStateOf(false) }
 
     val focusManager = LocalFocusManager.current
+
 
     Column(modifier = modifier) {
         TitleTextField(
@@ -110,7 +118,9 @@ fun ChoreEditScreen(modifier: Modifier = Modifier) {
 
         DescriptionTextField(
             value = description,
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .imePadding()
+                .fillMaxSize(),
             onValueChange = { description = it },
             onKeyboardDone = {
                 focusManager.clearFocus()
@@ -157,8 +167,8 @@ fun TitleTextField(
 @Composable
 fun DescriptionTextField(
     modifier: Modifier = Modifier,
-    value: String = "",
-    onValueChange: (String) -> Unit = {},
+    value: TextFieldValue = TextFieldValue(""),
+    onValueChange: (TextFieldValue) -> Unit = {},
     onKeyboardDone: () -> Unit = {},
 ) {
     TextField(
@@ -175,7 +185,7 @@ fun DescriptionTextField(
         textStyle = MaterialTheme.typography.bodyLarge,
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done,
+            imeAction = ImeAction.None,
         ),
         keyboardActions = KeyboardActions(
             onDone = { onKeyboardDone() }
