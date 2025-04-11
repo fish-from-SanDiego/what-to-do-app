@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            WhatToDoTheme(darkTheme = false, dynamicColor = false) {
+            WhatToDoTheme( dynamicColor = false) {
                 Scaffold { innerPadding ->
                     ChoreEditScreen(modifier = Modifier
                         .padding(innerPadding)

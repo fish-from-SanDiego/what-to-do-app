@@ -8,4 +8,7 @@
     <string name="chore_edit_title">Type chore here</string>
     <string name="chore_edit_title_on_wrong">Chore shoudln\'t be empty</string>
     <string name="chore_edit_description">Type more detailed description (optional)</string>
+    <string name="chore_date_format_pattern">dd/MM/yyyy</string>
+    <string name="chore_edit_select_date">Select date</string>
+    <string name="chore_edit_date_wrong">Wrong date</string>
 </resources>
