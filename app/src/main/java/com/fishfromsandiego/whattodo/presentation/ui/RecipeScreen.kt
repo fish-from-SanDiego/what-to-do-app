@@ -33,7 +33,7 @@ fun RecipeScreen(recipe: CookingRecipe, modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(CardDefaults.shape)
-                .background(color = MaterialTheme.colorScheme.primary),
+                .background(color = MaterialTheme.colorScheme.primaryContainer),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -44,7 +44,7 @@ fun RecipeScreen(recipe: CookingRecipe, modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .weight(1f)
                     .padding(4.dp),
-                color = MaterialTheme.colorScheme.onPrimary
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
             Image(
                 painter = recipe.picture,

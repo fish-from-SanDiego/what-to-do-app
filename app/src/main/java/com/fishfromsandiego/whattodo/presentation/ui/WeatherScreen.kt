@@ -55,43 +55,32 @@ fun WeatherCard(
     weatherInfo: WeatherInfo,
     modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier,
-        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
-        colors = CardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-            contentColor = MaterialTheme.colorScheme.onSurface,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
-            disabledContentColor = MaterialTheme.colorScheme.onSurface,
-        )
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier,
-        ) {
-            Icon(
-                painter = painterResource(weatherInfo.icon),
-                contentDescription = null,
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .weight(1f)
-                    .fillMaxSize()
-                    .padding(8.dp),
-                tint = weatherInfo.iconColor,
-            )
-            Text(
-                text = stringResource(weatherInfo.description),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.displaySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-                letterSpacing = (-0.02).em,
-                modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-                    .wrapContentHeight()
-            )
 
-        }
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Icon(
+            painter = painterResource(weatherInfo.icon),
+            contentDescription = null,
+            modifier = Modifier
+                .aspectRatio(1f)
+                .weight(1f)
+                .fillMaxSize()
+                .padding(8.dp),
+            tint = weatherInfo.iconColor,
+        )
+        Text(
+            text = stringResource(weatherInfo.description),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onSurface,
+            letterSpacing = (-0.02).em,
+            modifier = Modifier
+                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                .wrapContentHeight()
+        )
     }
 }
 
