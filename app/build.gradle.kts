@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
+    alias(libs.plugins.android.hilt)
+
 }
 
 android {
@@ -60,4 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
 }

@@ -1,7 +1,10 @@
 [versions]
 agp = "8.9.1"
 constraintlayoutCompose = "1.1.0"
+hiltAndroid = "2.51.1"
+hiltAndroidCompiler = "2.51.1"
 kotlin = "2.0.21"
+androidHilt = "2.51.1"
 coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -16,6 +19,8 @@ androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constr
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -36,4 +41,4 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "androidHilt" }
