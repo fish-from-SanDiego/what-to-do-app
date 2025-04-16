@@ -11,6 +11,10 @@ android {
     namespace = "com.fishfromsandiego.whattodo"
     compileSdk = 35
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.fishfromsandiego.whattodo"
         minSdk = 26
@@ -44,6 +48,11 @@ android {
 
 dependencies {
 
+    implementation(project(":presentation"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":common"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -63,6 +72,7 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.constraintlayout.compose)
+
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 

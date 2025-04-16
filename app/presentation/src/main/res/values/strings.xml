@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">WhatToDo</string>
+    <string name="sunny_weather_desc">It\'s sunny today!\nWhy not to go out?</string>
+    <string name="expand_chore_description">Expand chore description</string>
+    <string name="hide_chore_description">Hide chore description</string>
+    <string name="recipe_preview_desc">Bring a large pot of water to a boil. Add kosher salt to the boiling water, then add the pasta. Cook according to the package instructions, about 9 minutes.\\r\\nIn a large skillet over medium-high heat, add the olive oil and heat until the oil starts to shimmer. Add the garlic and cook, stirring, until fragrant, 1 to 2 minutes. Add the chopped tomatoes, red chile flakes, Italian seasoning and salt and pepper to taste.</string>
+    <string name="recipe_preview_dish">Spaghetti</string>
+    <string name="chore_edit_title">Type chore here</string>
+    <string name="chore_edit_title_on_wrong">Chore shoudln\'t be empty</string>
+    <string name="chore_edit_description">Type more detailed description (optional)</string>
+    <string name="chore_date_format_pattern">dd/MM/yyyy</string>
+    <string name="chore_edit_select_date">Select date</string>
+    <string name="chore_edit_date_wrong">Wrong date</string>
+    <string name="film_release_date_pattern">dd/MM/yyyy</string>
+    <string name="film_preview_overview">101-year-old Rose DeWitt Bukater tells the story of her life aboard the Titanic, 84 years later. A young Rose boards the ship with her mother and fiancé. Meanwhile, Jack Dawson and Fabrizio De Rossi win third-class tickets aboard the ship. Rose tells the whole story from Titanic\'s departure through to its death—on its first and last voyage—on April 15, 1912.</string>
+</resources>
