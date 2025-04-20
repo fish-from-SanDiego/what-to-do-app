@@ -6,6 +6,10 @@ import com.fishfromsandiego.whattodo.domain.chore.usecase.EditExistingChore
 import com.fishfromsandiego.whattodo.domain.chore.usecase.ListAllChoresNewFirst
 import com.fishfromsandiego.whattodo.domain.film.repository.FilmRepository
 import com.fishfromsandiego.whattodo.domain.film.usecase.GetRandomTrendingFilm
+import com.fishfromsandiego.whattodo.domain.recipe.repository.RecipeRepository
+import com.fishfromsandiego.whattodo.domain.recipe.usecase.GetRandomRecipe
+import com.fishfromsandiego.whattodo.domain.weather.repository.WeatherRepository
+import com.fishfromsandiego.whattodo.domain.weather.usecase.GetTodayWeather
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +43,18 @@ object DomainModule {
     @Provides
     fun provideGetRandomTrendingFilm(repository: FilmRepository): GetRandomTrendingFilm {
         return GetRandomTrendingFilm(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetRandomRecipe(repository: RecipeRepository): GetRandomRecipe {
+        return GetRandomRecipe(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetTodayWeather(repository: WeatherRepository): GetTodayWeather {
+        return GetTodayWeather(repository)
     }
 
 }

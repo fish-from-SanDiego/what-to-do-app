@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cookie
 import androidx.compose.material.icons.filled.RestaurantMenu
@@ -19,7 +21,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,7 +64,7 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
             ) {
 
                 Text(
-                    text = recipeModel.dish.uppercase(),
+                    text = recipeModel.dish,
                     style = MaterialTheme.typography.displaySmall,
                     textAlign = TextAlign.Center,
                     letterSpacing = (-0.02).em,
@@ -79,10 +83,12 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
                         .clip(CardDefaults.shape)
                 )
             }
+            val decriptionScrollState = rememberScrollState()
             Box(
                 modifier = Modifier
                     .padding(top = 8.dp, bottom = 8.dp)
                     .clip(CardDefaults.shape)
+                    .verticalScroll(decriptionScrollState)
                     .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
             ) {
                 Text(

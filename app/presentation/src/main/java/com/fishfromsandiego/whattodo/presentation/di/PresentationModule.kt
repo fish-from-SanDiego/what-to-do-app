@@ -3,6 +3,7 @@ package com.fishfromsandiego.whattodo.presentation.di
 import com.fishfromsandiego.whattodo.presentation.ui.BottomNavigationItem
 import com.fishfromsandiego.whattodo.presentation.ui.RecipeBottomBarItem
 import com.fishfromsandiego.whattodo.presentation.ui.WeatherBottomBarItem
+import com.fishfromsandiego.whattodo.presentation.ui.chore.state.ChoresUiState
 import com.fishfromsandiego.whattodo.presentation.ui.film.screen.FilmBottomBarItem
 import com.fishfromsandiego.whattodo.presentation.ui.film.state.FilmUiState
 import com.fishfromsandiego.whattodo.presentation.ui.recipe.state.RecipeUiState
@@ -34,6 +35,12 @@ object PresentationModule {
     @ViewModelScoped
     fun provideWeatherUiState(): WeatherUiState {
         return WeatherUiState()
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideChoresUiState(): ChoresUiState {
+        return ChoresUiState()
     }
 
     @Provides

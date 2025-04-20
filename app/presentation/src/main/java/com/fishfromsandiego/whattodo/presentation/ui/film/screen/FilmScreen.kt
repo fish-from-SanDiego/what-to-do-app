@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -99,18 +100,20 @@ fun MainInfoCard(film: FilmModel, modifier: Modifier = Modifier) {
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
                     .fillMaxHeight(0.38197f)
-                    .padding(4.dp)
+                    .padding(8.dp)
             )
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 4.dp),
                 text = film.title,
                 style = MaterialTheme.typography.headlineLarge,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
                 modifier = Modifier.padding(4.dp),
                 text = "Release Date: ${film.releaseDate.format(formatter)}",
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium
             )
         }
