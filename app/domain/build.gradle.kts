@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common"))
+//    implementation(project(":common"))
 
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.core.ktx)

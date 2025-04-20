@@ -1,74 +1,82 @@
 package com.fishfromsandiego.whattodo.data.chore.repository
 
+import android.util.Log
+import com.fishfromsandiego.whattodo.common.Constants
+import com.fishfromsandiego.whattodo.common.exceptions.WhatToDoAppCaughtException
+import com.fishfromsandiego.whattodo.data.chore.dao.ChoreDao
+import com.fishfromsandiego.whattodo.data.chore.entity.ChoreEntity
 import com.fishfromsandiego.whattodo.domain.chore.model.ChoreModel
 import com.fishfromsandiego.whattodo.domain.chore.repository.ChoreRepository
-import java.time.LocalDate
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class ChoreRepositoryImpl : ChoreRepository {
+class ChoreRepositoryImpl
+@Inject constructor(
+    val dao: ChoreDao
+) : ChoreRepository {
 
-    private var nextChoreId: Int = 0
-    private val chores = mutableMapOf<Int, ChoreModel>()
-
-    //    not thread safe at all
-    private fun addChore(chore: ChoreModel): ChoreModel {
-        val id = nextChoreId
-        ++nextChoreId
-        val value = chore.copy(id = id)
-        chores.set(id, value)
-        return value
-    }
-
-    init {
-        addChore(
-            ChoreModel(
-                title = "I have a description",
-                description = "Description",
-                date = LocalDate.of(2025, 12, 12)
-            )
-        )
-        addChore(
-            ChoreModel(
-                title = "I have a description",
-                description = "Longer desc Longer desc Longer desc Longer desc"
-                        + " Longer desc Longer desc Longer desc Longer desc",
-                date = LocalDate.of(2025, 12, 13)
-            )
-        )
-        addChore(
-            ChoreModel(
-                title = "And I do not",
-                date = LocalDate.of(2025, 3, 11)
-            )
-        )
-    }
 
     override suspend fun updateChore(
-        id: Int,
+        id: Long,
         newValue: ChoreModel
     ): Result<Unit> {
-        try {
-            chores.set(id, newValue.copy(id = id))
+        return try {
+            dao.updateChore(newValue.toEntity().copy(choreId = id))
+            Result.success(Unit)
         } catch (e: Throwable) {
-            return Result.failure(e)
+            Log.d(Constants.LOG_TAG, e.message ?: "unkonwn error")
+            Result.failure(WhatToDoAppCaughtException("Couldn't update chore properly"))
         }
-        return Result.success(Unit)
     }
 
     override suspend fun createandGetChore(value: ChoreModel): Result<ChoreModel> {
-        return Result.success(addChore(value))
+        return try {
+            val newValueId = dao.insertChores(value.toEntity()).first()
+            Result.success(value.copy(id = newValueId))
+        } catch (e: Throwable) {
+            Log.d(Constants.LOG_TAG, e.message ?: "unkonwn error")
+            Result.failure(WhatToDoAppCaughtException("Couldn't create new chore"))
+        }
     }
 
     override suspend fun createChore(value: ChoreModel): Result<Unit> {
-        addChore(value)
-        return Result.success(Unit)
+        return try {
+            dao.insertChores(value.toEntity()).first()
+            Result.success(Unit)
+        } catch (e: Throwable) {
+            Log.d(Constants.LOG_TAG, e.message ?: "unkonwn error")
+            Result.failure(WhatToDoAppCaughtException("Couldn't create new chore"))
+        }
     }
 
-    override suspend fun getAllChores(): List<ChoreModel> {
-        return chores.values.toList()
+    override fun getAllChores(): Flow<List<ChoreModel>> {
+        return dao.getAllChores().map { results ->
+            results.map { it -> it.toModel() }
+        }
     }
 
-    override suspend fun getAllChoresOrderedByDateDesc(): List<ChoreModel> {
-        return chores.values.sortedByDescending { it.date }.toList()
+    override fun getAllChoresOrderedByDateDesc(): Flow<List<ChoreModel>> {
+        return dao.getAllChoresSortedByDateDesc().map { results ->
+            results.map { it -> it.toModel() }
+        }
     }
 
+}
+
+fun ChoreModel.toEntity(): ChoreEntity {
+    return ChoreEntity(
+        choreDate = this.date,
+        choreTitle = this.title,
+        choreDescription = this.description
+    )
+}
+
+fun ChoreEntity.toModel(): ChoreModel {
+    return ChoreModel(
+        id = this.choreId,
+        date = this.choreDate,
+        title = this.choreTitle,
+        description = this.choreDescription
+    )
 }

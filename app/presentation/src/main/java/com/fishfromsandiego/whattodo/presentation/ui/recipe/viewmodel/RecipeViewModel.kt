@@ -1,5 +1,6 @@
 package com.fishfromsandiego.whattodo.presentation.ui.recipe.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fishfromsandiego.whattodo.domain.recipe.usecase.GetRandomRecipe
@@ -17,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     val getRandomRecipe: GetRandomRecipe,
-    val initialState: RecipeUiState,
+    initialState: RecipeUiState,
 ) : ContainerHost<RecipeUiState, RecipeScreenSideEffect>, ViewModel() {
     override val container: Container<RecipeUiState, RecipeScreenSideEffect> =
         container<RecipeUiState, RecipeScreenSideEffect>(initialState)
@@ -41,11 +42,11 @@ class RecipeViewModel @Inject constructor(
 
     fun dispatch(action: RecipeScreenAction) {
         when (action) {
-            RecipeScreenAction.LoadRecipeModel -> oadRecipeModel()
+            RecipeScreenAction.LoadRecipeModel -> loadRecipeModel()
         }
     }
 
-    private fun oadRecipeModel() = intent {
+    private fun loadRecipeModel() = intent {
         viewModelScope.launch(exceptionHandler) {
             reduce { state.copy(isRecipeModelLoading = true) }
             val recipeModel = getRandomRecipe()

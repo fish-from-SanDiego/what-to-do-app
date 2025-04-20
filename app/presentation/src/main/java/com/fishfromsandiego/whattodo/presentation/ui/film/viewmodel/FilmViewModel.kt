@@ -1,8 +1,9 @@
 package com.fishfromsandiego.whattodo.presentation.ui.film.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.fishfromsandiego.whattodo.domain.film.repository.FilmRepository
+import com.fishfromsandiego.whattodo.common.Constants
 import com.fishfromsandiego.whattodo.domain.film.usecase.GetRandomTrendingFilm
 import com.fishfromsandiego.whattodo.presentation.ui.film.action.FilmScreenAction
 import com.fishfromsandiego.whattodo.presentation.ui.film.sideeffect.FilmScreenSideEffect
@@ -10,7 +11,6 @@ import com.fishfromsandiego.whattodo.presentation.ui.film.state.FilmUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
-import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilmViewModel @Inject constructor(
     val getRandomTrendingFilm: GetRandomTrendingFilm,
-    val initialState: FilmUiState,
+    initialState: FilmUiState,
 ) : ContainerHost<FilmUiState, FilmScreenSideEffect>, ViewModel() {
     override val container = container<FilmUiState, FilmScreenSideEffect>(initialState)
 
@@ -35,6 +35,7 @@ class FilmViewModel @Inject constructor(
     }
 
     init {
+        Log.d(Constants.LOG_TAG, "init load film")
         dispatch(FilmScreenAction.LoadFilmModel)
     }
 
@@ -50,6 +51,7 @@ class FilmViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             reduce { state.copy(isFilmModelLoading = true) }
             val filmModel = getRandomTrendingFilm()
+            Log.d(Constants.LOG_TAG, filmModel.exceptionOrNull()?.message ?: "")
             if (filmModel.isFailure) throw filmModel.exceptionOrNull()!!
             reduce { state.copy(isFilmModelLoading = false, filmModel = filmModel) }
         }

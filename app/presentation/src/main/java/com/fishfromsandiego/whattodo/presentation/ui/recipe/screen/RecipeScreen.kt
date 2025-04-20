@@ -1,36 +1,40 @@
 package com.fishfromsandiego.whattodo.presentation.ui
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cookie
+import androidx.compose.material.icons.filled.RestaurantMenu
+import androidx.compose.material.icons.outlined.Cookie
+import androidx.compose.material.icons.outlined.RestaurantMenu
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import androidx.core.net.toUri
 import coil.compose.AsyncImage
+import com.fishfromsandiego.whattodo.domain.recipe.model.RecipeModel
 import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.recipe.state.RecipeUiState
 import com.fishfromsandiego.whattodo.presentation.ui.recipe.viewmodel.RecipeViewModel
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
 import org.orbitmvi.orbit.compose.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.core.net.toUri
-import com.fishfromsandiego.whattodo.domain.recipe.model.RecipeModel
 
 
 @Composable
@@ -71,6 +75,7 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
                     contentDescription = null,
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp, end = 8.dp)
+                        .height(100.dp)
                         .clip(CardDefaults.shape)
                 )
             }
@@ -93,6 +98,12 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
     }
 }
 
+
+object RecipeBottomBarItem : BottomNavigationItem {
+    override val screen = WhatToDoAppScreen.Recipe
+    override val selectedIcon = Icons.Filled.Cookie
+    override val unselectedIcon = Icons.Outlined.Cookie
+}
 
 @Preview(showBackground = true)
 @Composable

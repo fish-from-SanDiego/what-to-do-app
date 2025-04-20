@@ -1,6 +1,5 @@
 package com.fishfromsandiego.whattodo.presentation.ui.film.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -9,33 +8,36 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import coil.compose.AsyncImage
 import com.fishfromsandiego.whattodo.domain.film.model.FilmModel
 import com.fishfromsandiego.whattodo.presentation.R
+import com.fishfromsandiego.whattodo.presentation.ui.BottomNavigationItem
+import com.fishfromsandiego.whattodo.presentation.ui.WhatToDoAppScreen
+import com.fishfromsandiego.whattodo.presentation.ui.debugPlaceholder
 import com.fishfromsandiego.whattodo.presentation.ui.film.state.FilmUiState
 import com.fishfromsandiego.whattodo.presentation.ui.film.viewmodel.FilmViewModel
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
 import org.orbitmvi.orbit.compose.collectAsState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import androidx.compose.runtime.getValue
-import androidx.core.net.toUri
-import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import com.fishfromsandiego.whattodo.presentation.ui.debugPlaceholder
 
 @Composable
 fun FilmScreen(
@@ -52,7 +54,9 @@ fun FilmScreenContent(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.background(color = MaterialTheme.colorScheme.surface),
+        modifier = modifier
+            .padding(8.dp)
+            .background(color = MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val filmModel = filmUiState.filmModel?.getOrNull()
@@ -90,7 +94,7 @@ fun MainInfoCard(film: FilmModel, modifier: Modifier = Modifier) {
         ) {
             AsyncImage(
                 model = film.posterUri,
-                placeholder = debugPlaceholder(com.fishfromsandiego.whattodo.data.R.drawable.film_preview_poster_large),
+                placeholder = debugPlaceholder(R.drawable.film_preview_poster_large),
                 contentDescription = "Film Poster",
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier
@@ -138,6 +142,12 @@ fun FilmScreenPreview() {
             )
         }
     }
+}
+
+object FilmBottomBarItem : BottomNavigationItem {
+    override val screen = WhatToDoAppScreen.Film
+    override val selectedIcon = Icons.Filled.Movie
+    override val unselectedIcon = Icons.Outlined.Movie
 }
 
 @Preview(showBackground = true)
