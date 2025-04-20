@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -80,7 +81,7 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
                         contentDescription = null,
                         modifier = Modifier
                             .padding(top = 8.dp, bottom = 8.dp, end = 8.dp)
-                            .height(100.dp)
+                            .size(100.dp)
                             .clip(CardDefaults.shape)
                     )
                 }
@@ -89,6 +90,7 @@ fun RecipeScreenContent(recipeState: RecipeUiState, modifier: Modifier = Modifie
                     modifier = Modifier
                         .padding(top = 8.dp, bottom = 8.dp)
                         .clip(CardDefaults.shape)
+                        .fillMaxWidth()
                         .verticalScroll(decriptionScrollState)
                         .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 ) {

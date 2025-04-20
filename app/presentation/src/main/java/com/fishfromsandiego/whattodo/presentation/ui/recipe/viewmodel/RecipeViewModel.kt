@@ -50,7 +50,7 @@ class RecipeViewModel @Inject constructor(
             reduce { state.copy(isRecipeModelLoading = true) }
             val recipeModel = getRandomRecipe()
             if (recipeModel.isFailure) throw recipeModel.exceptionOrNull()!!
-            reduce { state.copy(isRecipeModelLoading = false, recipeModel = recipeModel) }
+            reduce { state.copy(recipeModel = recipeModel, isRecipeModelLoading = false) }
         }
     }
 
