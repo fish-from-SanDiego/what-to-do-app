@@ -77,13 +77,13 @@ class ChoresViewModel
     fun handleSideEffect(sideEffect: ChoresSideEffect, navController: NavController) {
         when (sideEffect) {
             ChoresSideEffect.NavigateBackToChoreList -> {
-                navController.navigate(WhatToDoAppScreen.ChoresList) {
-                    popUpTo(WhatToDoAppScreen.EditChore) { inclusive = true }
+                navController.navigate(WhatToDoAppScreen.ChoresList.name) {
+                    popUpTo(WhatToDoAppScreen.EditChore.name) { inclusive = true }
                 }
             }
 
             ChoresSideEffect.NavigateToChoreEdition -> {
-                navController.navigate(WhatToDoAppScreen.EditChore)
+                navController.navigate(WhatToDoAppScreen.EditChore.name)
             }
         }
 
@@ -162,8 +162,7 @@ class ChoresViewModel
         viewModelScope.launch(exceptionHandler) {
             reduce {
                 state.copy(
-                    expandedIds = ((state.expandedIds as? MutableSet<Long>)
-                        ?: state.expandedIds.toMutableSet()).also { it.add(choreId) }
+                    expandedIds = state.expandedIds.toMutableSet().also { it.add(choreId) }
                 )
             }
         }
@@ -173,8 +172,7 @@ class ChoresViewModel
         viewModelScope.launch(exceptionHandler) {
             reduce {
                 state.copy(
-                    expandedIds = ((state.expandedIds as? MutableSet<Long>)
-                        ?: state.expandedIds.toMutableSet()).also { it.remove(choreId) }
+                    expandedIds = state.expandedIds.toMutableSet().also { it.remove(choreId) }
                 )
             }
         }

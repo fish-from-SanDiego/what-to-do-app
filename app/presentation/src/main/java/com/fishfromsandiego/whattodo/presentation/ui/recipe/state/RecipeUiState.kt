@@ -5,5 +5,4 @@ import com.fishfromsandiego.whattodo.domain.recipe.model.RecipeModel
 data class RecipeUiState(
     val recipeModel: Result<RecipeModel>? = null,
     val isRecipeModelLoading: Boolean = true,
-    val isImageLoading: Boolean = true,
 )

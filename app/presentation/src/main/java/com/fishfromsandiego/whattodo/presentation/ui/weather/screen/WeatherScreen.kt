@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cloud
 import androidx.compose.material.icons.outlined.Cloud
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
+import com.fishfromsandiego.whattodo.common.exceptions.getUserMessage
 import com.fishfromsandiego.whattodo.domain.weather.model.WeatherModel
 import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
@@ -46,23 +48,29 @@ fun WeatherScreenContent(
     weatherUiState: WeatherUiState,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier,
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-        val weatherModel = weatherUiState.weatherModel?.getOrNull()
-        if (weatherModel != null) {
-            WeatherCard(
-                weatherModel = weatherModel,
-                modifier = Modifier
-                    .weight(2f)
-                    .aspectRatio(1f)
-                    .padding(12.dp),
-            )
+    if (weatherUiState.isLoading) {
+        ProgressIndicator()
+    } else {
+        weatherUiState.weatherModel!!.onFailure { e ->
+            ErrorIcon(e.getUserMessage(), Modifier.fillMaxSize())
+        }.onSuccess { weatherModel ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier,
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                WeatherCard(
+                    weatherModel = weatherModel,
+                    modifier = Modifier
+                        .weight(2f)
+                        .aspectRatio(1f)
+                        .padding(12.dp),
+                )
+                Spacer(modifier = Modifier.weight(1f))
+            }
         }
-        Spacer(modifier = Modifier.weight(1f))
     }
+
 }
 
 @Composable
@@ -110,7 +118,8 @@ fun WeatherScreenPreview() {
                         weatherId = 800,
                         description = "clear sky"
                     )
-                )
+                ),
+                isLoading = false
             ),
             modifier = Modifier.fillMaxSize(),
         )
@@ -129,9 +138,10 @@ fun WeatherScreenPreviewDark() {
                     weatherModel = Result.success(
                         WeatherModel(
                             weatherId = 800,
-                            description = "clear sky"
+                            description = "clear sky",
                         )
-                    )
+                    ),
+                    isLoading = false
                 ),
                 modifier = Modifier.fillMaxSize(),
             )

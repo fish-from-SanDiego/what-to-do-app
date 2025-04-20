@@ -13,7 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,8 +37,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
+import com.fishfromsandiego.whattodo.common.exceptions.getUserMessage
 import com.fishfromsandiego.whattodo.domain.chore.model.ChoreModel
 import com.fishfromsandiego.whattodo.presentation.R
+import com.fishfromsandiego.whattodo.presentation.ui.BottomNavigationItem
+import com.fishfromsandiego.whattodo.presentation.ui.ErrorIcon
+import com.fishfromsandiego.whattodo.presentation.ui.ProgressIndicator
+import com.fishfromsandiego.whattodo.presentation.ui.WhatToDoAppScreen
 import com.fishfromsandiego.whattodo.presentation.ui.chore.action.ChoresScreenAction
 import com.fishfromsandiego.whattodo.presentation.ui.chore.state.ChoresUiState
 import com.fishfromsandiego.whattodo.presentation.ui.chore.viewmodel.ChoresViewModel
@@ -66,25 +76,32 @@ fun ChoresListScreenContent(
     modifier: Modifier = Modifier,
     dispatch: (ChoresScreenAction) -> Unit = { _ -> },
 ) {
-    LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+    if (state.isLoading) {
+        ProgressIndicator()
+    } else {
+        state.chores!!.onFailure { e ->
+            ErrorIcon(errorText = e.getUserMessage(), modifier = Modifier.fillMaxSize())
+        }.onSuccess { chores ->
+            LazyColumn(
+                modifier = modifier,
+                contentPadding = PaddingValues(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
 
-        ) {
-        if (state.isLoading) {
-
-        } else {
-            state.chores!!.onFailure {
-
-            }.onSuccess { chores ->
+                ) {
                 items(chores) { chore ->
                     val expanded = state.expandedIds.contains(chore.id)
                     ChoreItem(
                         chore,
                         expanded = expanded,
                         onExpandButtonClick = {
-                            if (expanded) dispatch(ChoresScreenAction.ExpandChoreDescription(chore.id))
-                            else dispatch(ChoresScreenAction.CollapseChoreDescription(chore.id))
+                            if (!expanded) {
+                                dispatch(
+                                    ChoresScreenAction.ExpandChoreDescription(
+                                        chore.id
+                                    )
+                                )
+                            } else {
+                                dispatch(ChoresScreenAction.CollapseChoreDescription(chore.id))
+                            }
                         },
                         onEditButtonClick = {
                             dispatch(ChoresScreenAction.EditChore(chore))
@@ -93,10 +110,10 @@ fun ChoresListScreenContent(
                             .padding(top = 4.dp, bottom = 4.dp)
                             .fillMaxWidth()
                     )
+
                 }
             }
         }
-
     }
 }
 
@@ -282,6 +299,12 @@ private val previewChores = listOf(
         date = LocalDate.of(2025, 3, 11)
     ),
 )
+
+object ChoresListBottomBarItem : BottomNavigationItem {
+    override val screen = WhatToDoAppScreen.ChoresList
+    override val selectedIcon = Icons.Filled.Home
+    override val unselectedIcon = Icons.Outlined.Home
+}
 
 @Preview
 @Composable

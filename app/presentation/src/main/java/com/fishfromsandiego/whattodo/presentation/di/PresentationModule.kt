@@ -43,13 +43,13 @@ object PresentationModule {
         return ChoresUiState()
     }
 
-    @Provides
-    @Singleton
-    fun provideNavigationItems(): Array<BottomNavigationItem> {
-        return arrayOf(
-            WeatherBottomBarItem,
-            RecipeBottomBarItem,
-            FilmBottomBarItem
-        )
-    }
+//    @Provides
+//    @Singleton
+//    fun provideNavigationItems(): Array<BottomNavigationItem> {
+//        return arrayOf(
+//            WeatherBottomBarItem,
+//            RecipeBottomBarItem,
+//            FilmBottomBarItem
+//        )
+//    }
 }

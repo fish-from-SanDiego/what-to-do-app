@@ -26,6 +26,7 @@ class WeatherViewModel
             reduce {
                 state.copy(
                     weatherModel = Result.failure(e),
+                    isLoading = false,
                 )
             }
         }
@@ -43,12 +44,15 @@ class WeatherViewModel
 
     private fun loadWeatherModel() = intent {
         viewModelScope.launch(exceptionHandler) {
+            reduce {
+                state.copy(isLoading = true)
+            }
             val weatherModel = getTodayWeather()
             weatherModel
                 .onFailure { e ->
                     throw e
                 }
-                .onSuccess { reduce { state.copy(weatherModel = weatherModel) } }
+                .onSuccess { reduce { state.copy(weatherModel = weatherModel, isLoading = false) } }
         }
     }
 

@@ -28,7 +28,6 @@ class FilmViewModel @Inject constructor(
                 state.copy(
                     filmModel = Result.failure(e),
                     isFilmModelLoading = false,
-                    isPosterLoading = false,
                 )
             }
         }

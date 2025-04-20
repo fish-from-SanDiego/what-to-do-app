@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,11 +29,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import coil.compose.AsyncImage
+import com.fishfromsandiego.whattodo.common.exceptions.getUserMessage
 import com.fishfromsandiego.whattodo.domain.film.model.FilmModel
 import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.BottomNavigationItem
+import com.fishfromsandiego.whattodo.presentation.ui.ErrorIcon
+import com.fishfromsandiego.whattodo.presentation.ui.ProgressIndicator
 import com.fishfromsandiego.whattodo.presentation.ui.WhatToDoAppScreen
-import com.fishfromsandiego.whattodo.presentation.ui.debugPlaceholder
+import com.fishfromsandiego.whattodo.presentation.ui.imagePlaceholder
 import com.fishfromsandiego.whattodo.presentation.ui.film.state.FilmUiState
 import com.fishfromsandiego.whattodo.presentation.ui.film.viewmodel.FilmViewModel
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
@@ -54,27 +58,32 @@ fun FilmScreenContent(
     filmUiState: FilmUiState,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .padding(8.dp)
-            .background(color = MaterialTheme.colorScheme.surface),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        val filmModel = filmUiState.filmModel?.getOrNull()
-        if (filmModel != null) {
-            MainInfoCard(
-                film = filmModel,
-                modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .fillMaxWidth()
-            )
-            Text(
-                modifier = Modifier
-                    .padding(4.dp)
-                    .verticalScroll(rememberScrollState()),
-                text = filmModel.overview, style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
+    if (filmUiState.isFilmModelLoading) {
+        ProgressIndicator()
+    } else {
+        filmUiState.filmModel!!.onFailure { e ->
+            ErrorIcon(e.getUserMessage(), Modifier.fillMaxSize())
+        }.onSuccess { filmModel ->
+            Column(
+                modifier = modifier
+                    .padding(8.dp)
+                    .background(color = MaterialTheme.colorScheme.surface),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                MainInfoCard(
+                    film = filmModel,
+                    modifier = Modifier
+                        .padding(bottom = 8.dp)
+                        .fillMaxWidth()
+                )
+                Text(
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .verticalScroll(rememberScrollState()),
+                    text = filmModel.overview, style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+            }
         }
     }
 }
@@ -95,7 +104,7 @@ fun MainInfoCard(film: FilmModel, modifier: Modifier = Modifier) {
         ) {
             AsyncImage(
                 model = film.posterUri,
-                placeholder = debugPlaceholder(R.drawable.film_preview_poster_large),
+                placeholder = imagePlaceholder(R.drawable.film_preview_poster_large),
                 contentDescription = "Film Poster",
                 contentScale = ContentScale.FillHeight,
                 modifier = Modifier

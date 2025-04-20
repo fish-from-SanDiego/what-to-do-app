@@ -42,25 +42,34 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.chore.action.ChoresScreenAction
 import com.fishfromsandiego.whattodo.presentation.ui.chore.state.ChoresUiState
 import com.fishfromsandiego.whattodo.presentation.ui.chore.viewmodel.ChoresViewModel
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
 import org.orbitmvi.orbit.compose.collectAsState
+import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun ChoreEditScreen(viewModel: ChoresViewModel, modifier: Modifier = Modifier) {
+fun ChoreEditScreen(
+    viewModel: ChoresViewModel,
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
     val state by viewModel.collectAsState()
     ChoreEditScreenContent(
         state,
         viewModel::dispatch,
         modifier
     )
+    viewModel.collectSideEffect {
+        viewModel.handleSideEffect(it, navController = navController)
+    }
 }
 
 @Composable
@@ -112,13 +121,14 @@ fun ChoreEditScreenContent(
             onDateSelected = {
                 dispatch(ChoresScreenAction.EditDate(it))
                 dispatch(ChoresScreenAction.ChangeDateWrong(it == null))
+                dispatch(ChoresScreenAction.ChangeShowPicker(false))
                 if (!state.dateWrong)
                     focusManager.moveFocus(FocusDirection.Down)
             },
             onFieldClick = { dispatch(ChoresScreenAction.ChangeShowPicker(true)) },
             onDateSelectionDismiss = {
-                dispatch(ChoresScreenAction.ChangeShowPicker(false))
                 dispatch(ChoresScreenAction.ChangeDateWrong(state.editChoreDateMillis == null))
+                dispatch(ChoresScreenAction.ChangeShowPicker(false))
             },
             dateWrong = state.dateWrong,
         )
@@ -275,10 +285,12 @@ fun DatePickerModal(
     DatePickerDialog(
         onDismissRequest = onDismiss,
         confirmButton = {
-            TextButton(onClick = {
-                onDateSelected(datePickerState.selectedDateMillis)
-                onDismiss()
-            }) {
+            TextButton(
+                onClick = {
+                    onDateSelected(datePickerState.selectedDateMillis)
+                },
+                enabled = datePickerState.selectedDateMillis != null
+            ) {
                 Text("OK")
             }
         },

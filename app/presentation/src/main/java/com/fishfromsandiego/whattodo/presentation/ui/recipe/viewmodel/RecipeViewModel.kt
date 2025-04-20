@@ -29,7 +29,6 @@ class RecipeViewModel @Inject constructor(
                 state.copy(
                     recipeModel = Result.failure(e),
                     isRecipeModelLoading = false,
-                    isImageLoading = false,
                 )
             }
         }

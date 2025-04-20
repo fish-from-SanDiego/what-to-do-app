@@ -1,6 +1,5 @@
 package com.fishfromsandiego.whattodo.presentation.ui
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -20,6 +19,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.fishfromsandiego.whattodo.presentation.ui.chore.list.list.ChoresListBottomBarItem
+import com.fishfromsandiego.whattodo.presentation.ui.chore.list.list.ChoresListScreen
+import com.fishfromsandiego.whattodo.presentation.ui.chore.viewmodel.ChoresViewModel
 import com.fishfromsandiego.whattodo.presentation.ui.film.screen.FilmBottomBarItem
 import com.fishfromsandiego.whattodo.presentation.ui.film.screen.FilmScreen
 import com.fishfromsandiego.whattodo.presentation.ui.film.viewmodel.FilmViewModel
@@ -27,13 +29,13 @@ import com.fishfromsandiego.whattodo.presentation.ui.recipe.viewmodel.RecipeView
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
 import com.fishfromsandiego.whattodo.presentation.ui.weather.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
     private val recipeViewModel: RecipeViewModel by viewModels()
     private val filmViewModel: FilmViewModel by viewModels()
+    private val choresViewModel: ChoresViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -55,12 +57,22 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 Scaffold(
+                    topBar = {
+                        when (currentScreen) {
+                            WhatToDoAppScreen.EditChore -> ChoreEditTopBar(choresViewModel)
+                            WhatToDoAppScreen.ChoresList -> ChoresListTopBar(choresViewModel)
+                            WhatToDoAppScreen.Weather -> WeatherTopBar(weatherViewModel)
+                            WhatToDoAppScreen.Film -> FilmTopBar(filmViewModel)
+                            WhatToDoAppScreen.Recipe -> RecipeTopBar(recipeViewModel)
+                        }
+                    },
                     bottomBar = {
                         WhatToDoAppBottomBar(
                             navItems = arrayOf(
                                 WeatherBottomBarItem,
                                 RecipeBottomBarItem,
-                                FilmBottomBarItem
+                                FilmBottomBarItem,
+                                ChoresListBottomBarItem,
                             ),
                             currentScreen = currentScreen,
                             onClick = { screen ->
@@ -87,6 +99,12 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = WhatToDoAppScreen.Film.name) {
                             FilmScreen(filmViewModel, Modifier.fillMaxSize())
+                        }
+                        composable(route = WhatToDoAppScreen.ChoresList.name) {
+                            ChoresListScreen(choresViewModel, navController, Modifier.fillMaxSize())
+                        }
+                        composable(route = WhatToDoAppScreen.EditChore.name) {
+                            ChoreEditScreen(choresViewModel, navController, Modifier.fillMaxSize())
                         }
                     }
                 }
