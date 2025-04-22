@@ -17,12 +17,14 @@ composeBom = "2024.09.00"
 orbit = "9.0.0"
 pagingRuntime = "3.3.6"
 room = "2.7.0"
+truth = "1.4.4"
 uiTextGoogleFonts = "1.7.8"
 ktor = "3.1.2"
 jetbrainsKotlinJvm = "2.0.21"
 paging = "3.3.6"
 ksp = "2.1.20-2.0.0"
 kotlinSerialization = "2.1.20"
+junitJupiter = "5.8.1"
 
 [libraries]
 androidx-appcompat-resources = { module = "androidx.appcompat:appcompat-resources", version.ref = "appcompatResources" }
@@ -61,6 +63,8 @@ orbit-viewmodel = { module = "org.orbit-mvi:orbit-viewmodel", version.ref = "orb
 orbit-core = { module = "org.orbit-mvi:orbit-core", version.ref = "orbit" }
 ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
 ktor-client-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+google-truth = { module = "com.google.truth:truth", version.ref = "truth" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
 #androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 #material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 

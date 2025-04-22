@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.fishfromsandiego.whattodo.common.exceptions.getUserMessage
 import com.fishfromsandiego.whattodo.domain.weather.model.WeatherModel
+import com.fishfromsandiego.whattodo.domain.weather.model.WeatherType
 import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.theme.WhatToDoTheme
 import com.fishfromsandiego.whattodo.presentation.ui.weather.state.WeatherUiState
@@ -85,7 +86,7 @@ fun WeatherCard(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource(getWeatherIconPainterId(weatherModel.weatherId)),
+            painter = painterResource(getWeatherIconPainterId(weatherModel.weatherType)),
             contentDescription = null,
             modifier = Modifier
                 .aspectRatio(1f)
@@ -115,7 +116,7 @@ fun WeatherScreenPreview() {
             weatherUiState = WeatherUiState(
                 weatherModel = Result.success(
                     WeatherModel(
-                        weatherId = 800,
+                        weatherType = WeatherType.CLEAR,
                         description = "clear sky"
                     )
                 ),
@@ -137,7 +138,7 @@ fun WeatherScreenPreviewDark() {
                 weatherUiState = WeatherUiState(
                     weatherModel = Result.success(
                         WeatherModel(
-                            weatherId = 800,
+                            weatherType = WeatherType.CLEAR,
                             description = "clear sky",
                         )
                     ),
@@ -158,12 +159,14 @@ object WeatherBottomBarItem : BottomNavigationItem {
 
 
 private @DrawableRes
-fun getWeatherIconPainterId(weatherId: Int): Int {
-    if (weatherId < 300) return R.drawable.thunderstorm_24px
-    if (weatherId < 500) return R.drawable.rainy_light_24px
-    if (weatherId < 600) return R.drawable.rainy_heavy_24px
-    if (weatherId < 700) return R.drawable.ac_unit_24px
-    if (weatherId < 800) return R.drawable.foggy_24px
-    if (weatherId == 800) return R.drawable.clear_day_24px
-    return R.drawable.cloud_24px
+fun getWeatherIconPainterId(weatherType: WeatherType): Int {
+    return when (weatherType) {
+        WeatherType.CLEAR -> R.drawable.clear_day_24px
+        WeatherType.CLOUDS -> R.drawable.cloud_24px
+        WeatherType.DRIZZLE -> R.drawable.rainy_light_24px
+        WeatherType.RAIN -> R.drawable.rainy_heavy_24px
+        WeatherType.SNOW -> R.drawable.ac_unit_24px
+        WeatherType.FOG -> R.drawable.foggy_24px
+        WeatherType.THUNDERSTORM -> R.drawable.thunderstorm_24px
+    }
 }
