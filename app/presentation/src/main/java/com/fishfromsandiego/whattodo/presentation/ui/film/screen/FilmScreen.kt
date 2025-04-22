@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -103,7 +102,7 @@ fun MainInfoCard(film: FilmModel, modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AsyncImage(
-                model = film.posterUri,
+                model = film.posterUriStr.toUri(),
                 placeholder = imagePlaceholder(R.drawable.film_preview_poster_large),
                 contentDescription = "Film Poster",
                 contentScale = ContentScale.FillHeight,
@@ -143,7 +142,7 @@ fun FilmScreenPreview() {
                             title = "Titanic",
                             overview = "101-year-old Rose DeWitt Bukater tells the story of her life aboard the Titanic, 84 years later. A young Rose boards the ship with her mother and fiancé. Meanwhile, Jack Dawson and Fabrizio De Rossi win third-class tickets aboard the ship. Rose tells the whole story from Titanic\\'s departure through to its death—on its first and last voyage—on April 15, 1912.",
                             releaseDate = LocalDate.of(1997, 12, 19),
-                            posterUri = "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg".toUri()
+                            posterUriStr = "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
                         )
                     )
 
@@ -175,7 +174,7 @@ fun FilmScreenPreviewDark() {
                             title = "Titanic",
                             overview = "101-year-old Rose DeWitt Bukater tells the story of her life aboard the Titanic, 84 years later. A young Rose boards the ship with her mother and fiancé. Meanwhile, Jack Dawson and Fabrizio De Rossi win third-class tickets aboard the ship. Rose tells the whole story from Titanic\\'s departure through to its death—on its first and last voyage—on April 15, 1912.",
                             releaseDate = LocalDate.of(1997, 12, 19),
-                            posterUri = "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg".toUri()
+                            posterUriStr = "https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
                         )
                     )
 

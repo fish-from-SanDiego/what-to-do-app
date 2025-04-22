@@ -1,6 +1,5 @@
 package com.fishfromsandiego.whattodo.data.film.repository
 
-import androidx.core.net.toUri
 import com.fishfromsandiego.whattodo.data.film.api.FilmApi
 import com.fishfromsandiego.whattodo.data.film.dto.FilmData
 import com.fishfromsandiego.whattodo.domain.film.model.FilmModel
@@ -32,6 +31,6 @@ fun FilmData.toModel(): FilmModel {
             this.releaseDateStr,
             DateTimeFormatter.ofPattern("yyyy-MM-dd")
         ),
-        posterUri = this.posterPath.toUri(),
+        posterUriStr = this.posterPath,
     )
 }

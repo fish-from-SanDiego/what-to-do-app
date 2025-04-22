@@ -36,5 +36,4 @@ dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.google.truth)
     testImplementation(libs.junit.jupiter)
-    testImplementation(libs.google.truth)
 }

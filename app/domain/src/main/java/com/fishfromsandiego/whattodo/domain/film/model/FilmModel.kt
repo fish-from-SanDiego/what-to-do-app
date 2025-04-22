@@ -8,5 +8,5 @@ data class FilmModel(
     val title: String,
     val overview: String,
     val releaseDate: LocalDate,
-    val posterUri: Uri,
+    val posterUriStr: String,
 )
