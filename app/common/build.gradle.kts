@@ -30,3 +30,8 @@ android {
         jvmTarget = "11"
     }
 }
+
+dependencies {
+
+    testImplementation(libs.junit)
+}

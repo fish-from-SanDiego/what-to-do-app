@@ -1,4 +1,4 @@
-package com.fishfromsandiego.data
+package com.fishfromsandiego.whattodo.data
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
