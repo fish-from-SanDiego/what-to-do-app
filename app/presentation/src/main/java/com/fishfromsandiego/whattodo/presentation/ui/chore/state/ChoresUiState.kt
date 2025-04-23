@@ -16,7 +16,7 @@ data class ChoresUiState(
     ),
     val editChoreDateMillis: Long? = null,
     val titleFocusNotTriggeredYet: Boolean = true,
-    val titleInputWrong: Boolean = false,
-    val dateWrong: Boolean = false,
+    val showTitleInputWrong: Boolean = false,
+    val showDateWrong: Boolean = false,
     val showPicker: Boolean = false,
 )

@@ -1,6 +1,5 @@
 package com.fishfromsandiego.whattodo.presentation.ui.chore.viewmodel
 
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,6 @@ import com.fishfromsandiego.whattodo.domain.chore.model.ChoreModel
 import com.fishfromsandiego.whattodo.domain.chore.usecase.AddAndGetNewChore
 import com.fishfromsandiego.whattodo.domain.chore.usecase.EditExistingChore
 import com.fishfromsandiego.whattodo.domain.chore.usecase.ListAllChoresNewFirst
-import com.fishfromsandiego.whattodo.presentation.R
 import com.fishfromsandiego.whattodo.presentation.ui.WhatToDoAppScreen
 import com.fishfromsandiego.whattodo.presentation.ui.chore.action.ChoresScreenAction
 import com.fishfromsandiego.whattodo.presentation.ui.chore.sideeffect.ChoresSideEffect
@@ -24,9 +22,7 @@ import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.viewmodel.container
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -71,6 +67,8 @@ class ChoresViewModel
             is ChoresScreenAction.ChangeDateWrong -> changeDateWrong(action.isWrong)
             is ChoresScreenAction.ChangeTitleWrong -> changeTitleWrong(action.isWrong)
             is ChoresScreenAction.EditDate -> editDate(action.newDateMillis)
+            is ChoresScreenAction.EditTitleAndUpdateShowWrong -> editTitleAndUpdateShowWrong(action.newTitle)
+            is ChoresScreenAction.SelectDate -> selectDate(action.newDateMillis)
         }
     }
 
@@ -89,6 +87,25 @@ class ChoresViewModel
 
     }
 
+    private fun selectDate(newDateMillis: Long?) = intent {
+        reduce {
+            state.copy(
+                editChoreDateMillis = newDateMillis,
+                showDateWrong = newDateMillis == null,
+                showPicker = false,
+            )
+        }
+    }
+
+    private fun editTitleAndUpdateShowWrong(newValue: String) = intent {
+        reduce {
+            state.copy(
+                editChoreTitle = newValue,
+                showTitleInputWrong = newValue.isEmpty(),
+            )
+        }
+    }
+
     private fun editDate(newDateMillis: Long?) = intent {
         reduce {
             state.copy(
@@ -99,7 +116,6 @@ class ChoresViewModel
 
     private fun saveChore() = intent {
         if (state.editChoreTitle == "" || state.editChoreDateMillis == null) {
-            postSideEffect(ChoresSideEffect.NavigateBackToChoreList)
             return@intent
         }
         val choreId = state.editChoreId
@@ -121,8 +137,8 @@ class ChoresViewModel
                 editChoreDescription = TextFieldValue("", selection = TextRange.Zero),
                 editChoreDateMillis = null,
                 titleFocusNotTriggeredYet = true,
-                titleInputWrong = false,
-                dateWrong = false,
+                showTitleInputWrong = false,
+                showDateWrong = false,
                 showPicker = false,
             )
         }
@@ -184,7 +200,10 @@ class ChoresViewModel
             listAllChoresNewFirst().catch { e ->
                 reduce {
                     state.copy(
-                        chores = Result.failure(e),
+                        chores = Result.failure(
+                            if (e is WhatToDoAppCaughtException) e
+                            else WhatToDoAppCaughtException("Error while loading chores data")
+                        ),
                         expandedIds = setOf(),
                         isLoading = false
                     )
@@ -209,7 +228,7 @@ class ChoresViewModel
     private fun changeTitleWrong(isWrong: Boolean) = intent {
         reduce {
             state.copy(
-                titleInputWrong = isWrong
+                showTitleInputWrong = isWrong
             )
         }
     }
@@ -217,7 +236,7 @@ class ChoresViewModel
     private fun changeDateWrong(isWrong: Boolean) = intent {
         reduce {
             state.copy(
-                dateWrong = isWrong
+                showDateWrong = isWrong
             )
         }
     }
@@ -241,8 +260,8 @@ class ChoresViewModel
                 ),
                 editChoreDateMillis = null,
                 titleFocusNotTriggeredYet = true,
-                titleInputWrong = false,
-                dateWrong = false,
+                showTitleInputWrong = false,
+                showDateWrong = false,
                 showPicker = false,
             )
         }
@@ -263,8 +282,8 @@ class ChoresViewModel
                     ),
                     editChoreDateMillis = localDateToMillis(chore.date),
                     titleFocusNotTriggeredYet = true,
-                    titleInputWrong = false,
-                    dateWrong = false,
+                    showTitleInputWrong = false,
+                    showDateWrong = false,
                     showPicker = false,
                 )
             }

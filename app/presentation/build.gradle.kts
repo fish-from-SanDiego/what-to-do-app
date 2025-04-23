@@ -66,17 +66,27 @@ dependencies {
 
 
     implementation(libs.hilt.android)
+    testImplementation(libs.junit.junit)
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.orbit.core)
     implementation(libs.orbit.viewmodel)
     implementation(libs.orbit.compose)
 
+    testImplementation("org.orbit-mvi:orbit-test:9.0.0")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
+    testImplementation(libs.mockk.android)
+    testImplementation(libs.mockk.agent)
     testImplementation(libs.junit)
+    testImplementation(libs.google.truth)
+    testImplementation(libs.junit.jupiter)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }

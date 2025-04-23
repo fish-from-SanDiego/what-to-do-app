@@ -16,6 +16,8 @@ sealed class ChoresScreenAction {
     data object RegisterTitleFocusTrigger : ChoresScreenAction()
     data class ChangeTitleWrong(val isWrong: Boolean) : ChoresScreenAction()
     data class ChangeDateWrong(val isWrong: Boolean) : ChoresScreenAction()
+    data class EditTitleAndUpdateShowWrong(val newTitle: String) : ChoresScreenAction()
+    data class SelectDate(val newDateMillis: Long?) : ChoresScreenAction()
 
     data object SaveChore : ChoresScreenAction()
     data object NavigateBackToList : ChoresScreenAction()

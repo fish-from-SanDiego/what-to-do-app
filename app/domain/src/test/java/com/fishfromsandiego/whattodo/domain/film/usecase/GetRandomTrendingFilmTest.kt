@@ -1,12 +1,11 @@
-package com.fishfromsandiego.whattodo.domain
+package com.fishfromsandiego.whattodo.domain.film.usecase
 
 import com.fishfromsandiego.whattodo.domain.film.model.FilmModel
 import com.fishfromsandiego.whattodo.domain.film.repository.FilmRepository
-import com.fishfromsandiego.whattodo.domain.film.usecase.GetRandomTrendingFilm
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
@@ -56,8 +55,8 @@ class GetRandomTrendingFilmTest {
 //        Test
         for (res in results) {
             val model = res.getOrNull()
-            assertNotNull(model)
-            assertTrue(filmsPool.contains(model))
+            Assert.assertNotNull(model)
+            Assert.assertTrue(filmsPool.contains(model))
         }
 
     }
@@ -77,8 +76,8 @@ class GetRandomTrendingFilmTest {
         //        Test
         for (res in results) {
             val model = res.second.getOrNull()
-            assertNotNull(model)
-            assertNotEquals(model, filmsShortPool.find { it.id == res.first })
+            Assert.assertNotNull(model)
+            Assert.assertNotEquals(model, filmsShortPool.find { it.id == res.first })
         }
     }
 
@@ -91,8 +90,8 @@ class GetRandomTrendingFilmTest {
         val res = runBlocking { sut(filmsSinglePool.first().id) }
 
 //        Test
-        assertTrue(res.isSuccess)
-        assertEquals(res.getOrNull()!!, filmsSinglePool.first())
+        Assert.assertTrue(res.isSuccess)
+        Assert.assertEquals(res.getOrNull()!!, filmsSinglePool.first())
     }
 
     @Test
@@ -104,8 +103,8 @@ class GetRandomTrendingFilmTest {
         val res = runBlocking { sut() }
 
 //        Test
-        assertTrue(res.isFailure)
-        assertEquals(res.exceptionOrNull()!!.message, "Loaded films list was empty")
+        Assert.assertTrue(res.isFailure)
+        Assert.assertEquals(res.exceptionOrNull()!!.message, "Loaded films list was empty")
     }
 
     @Test
@@ -117,7 +116,7 @@ class GetRandomTrendingFilmTest {
         val res = runBlocking { sut() }
 
 //        Test
-        assertTrue(res.isFailure)
+        Assert.assertTrue(res.isFailure)
     }
 
     private fun getRandomFilmModel(): FilmModel {
@@ -137,12 +136,3 @@ class GetRandomTrendingFilmTest {
         }
     }
 }
-
-
-//FilmModel(
-//val id: Int,
-//val title: String,
-//val overview: String,
-//val releaseDate: LocalDate,
-//val posterUri: Uri,
-//)

@@ -26,10 +26,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.onFocusChanged
@@ -38,7 +34,6 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
@@ -53,7 +48,6 @@ import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 import java.time.Instant
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -97,10 +91,9 @@ fun ChoreEditScreenContent(
                         dispatch(ChoresScreenAction.ChangeTitleWrong(state.editChoreTitle.isEmpty()))
                     }
                 },
-            titleInputWrong = state.titleInputWrong,
+            titleInputWrong = state.showTitleInputWrong,
             onValueChange = {
-                dispatch(ChoresScreenAction.EditTitle(it))
-                dispatch(ChoresScreenAction.ChangeTitleWrong(state.editChoreTitle.isEmpty()))
+                dispatch(ChoresScreenAction.EditTitleAndUpdateShowWrong(it))
             },
             onKeyboardNext = {
                 if (state.editChoreTitle.isEmpty())
@@ -121,10 +114,8 @@ fun ChoreEditScreenContent(
                     { if (it.hasFocus) dispatch(ChoresScreenAction.ChangeShowPicker(true)) }
                 ),
             onDateSelected = {
-                dispatch(ChoresScreenAction.EditDate(it))
-                dispatch(ChoresScreenAction.ChangeDateWrong(it == null))
-                dispatch(ChoresScreenAction.ChangeShowPicker(false))
-                if (!state.dateWrong)
+                dispatch(ChoresScreenAction.SelectDate(it))
+                if (!state.showDateWrong)
                     focusManager.moveFocus(FocusDirection.Down)
             },
             onFieldClick = { dispatch(ChoresScreenAction.ChangeShowPicker(true)) },
@@ -132,7 +123,7 @@ fun ChoreEditScreenContent(
                 dispatch(ChoresScreenAction.ChangeDateWrong(state.editChoreDateMillis == null))
                 dispatch(ChoresScreenAction.ChangeShowPicker(false))
             },
-            dateWrong = state.dateWrong,
+            dateWrong = state.showDateWrong,
         )
 
         DescriptionTextField(

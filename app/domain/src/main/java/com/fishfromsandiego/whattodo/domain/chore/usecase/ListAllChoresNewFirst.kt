@@ -6,6 +6,6 @@ import javax.inject.Inject
 class ListAllChoresNewFirst @Inject constructor(
     val repository: ChoreRepository
 ) {
-    suspend operator fun invoke() =
+    operator fun invoke() =
         repository.getAllChoresOrderedByDateDesc()
 }
