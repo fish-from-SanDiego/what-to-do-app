@@ -1,6 +1,5 @@
 # What To Do App
 ## Экраны
-<br>
 ![](readme-pics/screen1.png)
 <br>
 ![](readme-pics/screen2.png)
